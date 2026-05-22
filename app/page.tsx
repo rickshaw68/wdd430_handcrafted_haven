@@ -10,7 +10,7 @@ export default function Home() {
       { /* placeholder for the navbar */ }
       <header className="bg-white border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-6 py-4 font-semibold text-center">
-          <p className="text-sm text-neutral-500">Navbar Coming Soon!</p>
+            
         </div>
       </header>
 
