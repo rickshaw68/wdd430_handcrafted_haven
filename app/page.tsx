@@ -6,13 +6,6 @@ export default function Home() {
   return (
 
     <main className="min-h-screen bg-neutral-50">
-      
-      { /* placeholder for the navbar */ }
-      <header className="bg-white border-b border-neutral-200">
-        <div className="max-w-7xl mx-auto px-6 py-4 font-semibold text-center">
-            
-        </div>
-      </header>
 
      {/* Hero section */}
      <section className="bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white">
