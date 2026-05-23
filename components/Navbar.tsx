@@ -46,7 +46,7 @@ export default function Navbar() {
                     </svg>
                 </div>
 
-                <div className="hidden md:block">
+                <div className="block">
                     <h1 className="text-2xl text-neutral-900">
                         Handcrafted Haven
                     </h1>
