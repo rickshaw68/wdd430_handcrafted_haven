@@ -65,7 +65,7 @@ export default function Navbar() {
                             <Link
                                 href={link.href}
                                 className={clsx(
-                                    'flex h-[48px] items-center justify-center gap-2 rounded-md p-3 text-sm font-medium hover:text-teal-600 md:px-3',
+                                    'flex h-[48px] items-center justify-center gap-2 rounded-md p-3 text-slate-700 text-sm font-medium hover:text-teal-600 md:px-3',
                                     {
                                         'bg-sky-800 text-white':
                                             pathname === link.href,
