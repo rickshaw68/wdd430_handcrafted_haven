@@ -12,6 +12,20 @@ type ProductCardProps = {
 };
 
 export default function ProductCard({ product }: ProductCardProps) {
+ console.log('Original product data:', product);
+  const cleanedUpProduct= Object.fromEntries(
+    Object.entries(product).map(([key, value]) => {
+      let newValue = value;
+      if (typeof value === 'string') {
+         newValue = value.trim().replace(/[<>%#@*^]+/g, '');
+         console.log('Cleaned up value:', newValue);
+      }
+      console.log(newValue);
+      return [key, newValue];
+    })
+  )
+
+  
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-md">
       <div className="h-64 bg-neutral-200">
@@ -23,14 +37,14 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="p-5">
         <div className="flex items-center justify-between">
           <span className="rounded-full bg-teal-50 px-3 py-1 text-xs text-teal-700">
-            {product.category}
+            {cleanedUpProduct.category}
           </span>
 
           <span className="text-sm text-neutral-600">⭐ {product.rating}</span>
         </div>
 
         <h3 className="mt-4 text-xl font-semibold text-neutral-900">
-          {product.name}
+          {cleanedUpProduct.name}
         </h3>
 
         <p className="mt-2 text-sm text-neutral-600">
