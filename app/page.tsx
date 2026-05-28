@@ -1,5 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
 
@@ -7,13 +8,7 @@ export default function Home() {
 
     <main className="min-h-screen bg-neutral-50">
       
-      { /* placeholder for the navbar */ }
-      <header className="bg-white border-b border-neutral-200">
-        <div className="max-w-7xl mx-auto px-6 py-4 font-semibold text-center">
-          <p className="text-sm text-neutral-500">Navbar Coming Soon!</p>
-        </div>
-      </header>
-
+     <Navbar/>
      {/* Hero section */}
      <section className="bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white">
         <div className="mx-auto max-w-7xl px-6 py-20 text-center">
