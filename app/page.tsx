@@ -18,14 +18,19 @@ export default function Home() {
             Support independent artisans and find unique, handmade supplies
           </p>
 
-          <div className="mx-auto mt-10 flex max-w-2xl items-center rounded-full bg-white/15 px-6 py-4 shadow-lg">
+          <div className="mx-auto mt-10 flex max-w-2xl items-center rounded-full bg-white px-6 py-4 shadow-lg">
+            <label htmlFor="search" className="sr-only">
+              Search products
+            </label>
+
             <input
+              id="search"
               type="text"
               placeholder="Search for craft supplies..."
-              className="w-full bg-transparent text-sm text-white placeholder-white/70 outline-none"
+              className="w-full bg-transparent text-sm text-neutral-800 placeholder-neutral-500 outline-none"
             />
 
-            <span className="text-xl">🔍</span>
+            <span className="text-xl text-neutral-700">🔍</span>
           </div>
         </div>
       </section>
