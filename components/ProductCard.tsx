@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type Product = {
   id: number;
   name: string;
@@ -24,10 +26,13 @@ export default function ProductCard({ product }: ProductCardProps) {
   
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-md">
-      <div className="h-64 bg-neutral-200">
-        <p className="flex h-full items-center justify-center text-neutral-500">
-          Product image
-        </p>
+      <div className="relative h-64">
+        <Image
+          src={product.image}
+          alt={cleanedUpProduct.name as string}
+          fill
+          className="object-cover"
+        />
       </div>
 
       <div className="p-5">

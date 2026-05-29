@@ -5,7 +5,7 @@ export const products = [
     price: 24.99,
     category: "Yarn & Knitting",
     rating: 4.8,
-    image: "/images/yarn.jpg",
+    image: "/images/products/premium_yarn_wool_set.webp",
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ export const products = [
     price: 34.99,
     category: "Paints & Brushes",
     rating: 4.9,
-    image: "/images/paintbrushes.jpg",
+    image: "/images/products/artisan-paint-brush-collection.webp",
   },
   {
     id: 3,
@@ -21,6 +21,6 @@ export const products = [
     price: 29.99,
     category: "Yarn & Knitting",
     rating: 4.7,
-    image: "/images/rainbow-yarn.jpg",
+    image: "/images/products/rainbow_yarn_bundle.webp",
   },
 ];
