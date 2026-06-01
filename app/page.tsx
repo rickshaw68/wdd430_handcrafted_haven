@@ -5,7 +5,7 @@ export default function Home() {
 
   return (
 
-    <main className="min-h-screen bg-neutral-50">
+    <main className="flex-grow bg-neutral-50">
 
      {/* Hero section */}
      <section className="bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white">
@@ -66,18 +66,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Footer Placeholder */}
-      <footer className="border-t border-neutral-200 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-8 text-center">
-          <p className="text-sm text-neutral-600">
-            © 2026 Handcrafted Haven. Supporting artisans and handmade creations.
-          </p>
-          <p className="mt-2 text-xs font-bold text-neutral-400">Footer Navigation Coming Soon</p>
-        </div>
-      </footer>
-
+      </section>      
     </main>
   );
 }
