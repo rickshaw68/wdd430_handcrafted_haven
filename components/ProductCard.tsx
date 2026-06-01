@@ -11,20 +11,16 @@ type ProductCardProps = {
   product: Product;
 };
 
-export default function ProductCard({ product }: ProductCardProps) {
- console.log('Original product data:', product);
+export default function ProductCard({ product }: ProductCardProps) { 
   const cleanedUpProduct= Object.fromEntries(
     Object.entries(product).map(([key, value]) => {
       let newValue = value;
       if (typeof value === 'string') {
-         newValue = value.trim().replace(/[<>%#@*^]+/g, '');
-         console.log('Cleaned up value:', newValue);
-      }
-      console.log(newValue);
+         newValue = value.trim().replace(/[<>%#@*^]+/g, '');         
+      }      
       return [key, newValue];
     })
   )
-
   
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-md">
