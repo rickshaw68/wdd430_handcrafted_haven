@@ -2,7 +2,7 @@ import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/products";
 
 export default function Home() {
-
+    //throw new Error("Simulated error for testing error handling");
   return (
 
     <main className="flex-grow bg-neutral-50">
