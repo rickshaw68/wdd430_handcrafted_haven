@@ -41,3 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 team_meeting_march-13.docx
+.env*.local
