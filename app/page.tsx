@@ -25,7 +25,7 @@ function EmptyState({ onReset }: { onReset: () => void }) {
 }
 
 export default function Home() {
-  throw new Error("Simulated error for testing error handling");
+  // throw new Error("Simulated error for testing error handling");
 
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [search, setSearch] = useState("");
