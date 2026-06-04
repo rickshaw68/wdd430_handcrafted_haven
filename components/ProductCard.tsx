@@ -65,7 +65,7 @@ return (
 
             <div className="mt-auto flex items-center justify-between">
                 <p className="text-2xl font-semibold text-cyan-600">
-                    ${product.price.toFixed(2)}
+                    ${Number(product.price).toFixed(2)}
                 </p>
                 <button className="rounded-xl bg-cyan-500 px-4 py-2 font-semibold text-white">
                     Add

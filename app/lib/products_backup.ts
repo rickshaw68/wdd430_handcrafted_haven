@@ -4,21 +4,18 @@ const sql = postgres(process.env.POSTGRES_URL!, {
   ssl: "require",
 });
 
-export type Product = {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
-  rating: number;
-  image: string;
-  seller: string;
-  seller_id: number;
-  description: string;
-};
-
-export async function getProducts(): Promise<Product[]> {
-  const products = await sql<Product[]>`
-    SELECT id, name, price, category, rating, image, seller, seller_id, description
+export async function getProducts() {
+  const products = await sql`
+    SELECT
+      id,
+      name,
+      price::float AS price,
+      category,
+      rating::float AS rating,
+      image,
+      seller,
+      seller_id AS "sellerId",
+      description
     FROM products
     ORDER BY id;
   `;

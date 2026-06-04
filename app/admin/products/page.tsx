@@ -224,7 +224,7 @@ export default function AdminProductsPage() {
                     <td className="px-4 py-3 font-medium">{product.name}</td>
                     <td className="px-4 py-3">{product.category}</td>
                     <td className="px-4 py-3">{product.seller}</td>
-                    <td className="px-4 py-3">${product.price.toFixed(2)}</td>
+                    <td className="px-4 py-3">${Number(product.price).toFixed(2)}</td>
                     <td className="px-4 py-3">{product.rating}</td>
                     <td className="px-4 py-3">
                     <button
