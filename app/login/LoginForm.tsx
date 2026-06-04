@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { login } from "./actions";
+import Link    from "next/link";
 
 export function LoginForm() {
   const [state, loginAction] = useActionState(login, undefined);
@@ -46,6 +47,15 @@ export function LoginForm() {
       </div>
 
       <SubmitButton />
+
+      <p className="text-center text-sm text-slate-600">
+  Don't have an account?{" "}
+  <Link href="/signup" className="text-blue-600 font-semibold hover:underline">
+    Sign up
+  </Link>
+</p>
+
+      
     </form>
   );
 }
@@ -61,5 +71,8 @@ function SubmitButton() {
     >
       {pending ? "Authenticating..." : "Login"}
     </button>
+
+    
   );
+  
 }
