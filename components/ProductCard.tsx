@@ -29,7 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   )
       
 return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-md">
+    <article className="overflow-hidden rounded-2xl bg-white shadow-md flex flex-col h-full">
         <div className="relative h-64">
             <Image
                 src={product.image}
@@ -40,7 +40,7 @@ return (
             />
         </div>
 
-        <div className="p-5">
+        <div className="p-5 flex flex-col flex-1">
             <div className="flex items-center justify-between">
                 <span className="rounded-full bg-teal-50 px-3 py-1 text-xs text-teal-700">
                     {cleanedUpProduct.category}
@@ -63,7 +63,7 @@ return (
                 {cleanedUpProduct.description || "Handcrafted item made by local artisans."} 
             </p>
 
-            <div className="mt-5 flex items-center justify-between">
+            <div className="mt-auto flex items-center justify-between">
                 <p className="text-2xl font-semibold text-cyan-600">
                     ${product.price.toFixed(2)}
                 </p>
