@@ -16,9 +16,11 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
     );
 
     return (
-        <main className="flex-grow bg-neutral-50 flex items-center justify-center">
-            <div>
-                <h2>There was an issue with your request. We apologize for any issues this may have caused. Click below to try again or continue browsing our selection.</h2>
+        <main className="flex-grow flex-col bg-neutral-50 flex items-center justify-center">
+            <div className="bg-white rounded-lg shadow-md p-8 text-center mt-20 p-10">
+                <h2 className="text-lg font-medium text-neutral-900">
+                    There was an issue with your request. We apologize for any issues this may have caused. Click below to try again or continue browsing our selection.
+                </h2>
                 <button
                     className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
                     onClick={
