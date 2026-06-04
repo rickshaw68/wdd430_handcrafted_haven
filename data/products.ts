@@ -39,6 +39,9 @@ export const products = [
     category: "Paints & Brushes",
     rating: 4.6,
     image: "/images/products/acrylic_paint_set.webp",
+    seller: "BrushMasters",
+    sellerId: 3,
+    description: "A versatile acrylic paint set with rich, blendable colors ideal for canvas, wood, and mixed-media projects."
   },
   {
     id: 5,
@@ -47,6 +50,9 @@ export const products = [
     category: "Paints & Brushes",
     rating: 4.8,
     image: "/images/products/artist_brush_collection.webp",
+    seller: "BrushMasters",
+    sellerId: 3,
+    description: "A handcrafted collection of artist brushes in assorted shapes and sizes for fine detail and broad strokes alike."
   },
   {
     id: 6,
@@ -55,6 +61,9 @@ export const products = [
     category: "Yarn & Knitting",
     rating: 4.7,
     image: "/images/products/chunky_yarn_collection.webp",
+    seller: "CozyCrafts",
+    sellerId: 1,
+    description: "Soft, chunky yarn in cozy tones, perfect for quick-knit blankets, scarves, and warm winter accessories."
   },
   {
     id: 7,
@@ -63,6 +72,9 @@ export const products = [
     category: "Craft Supplies",
     rating: 4.5,
     image: "/images/products/craft_scissors_tools.webp",
+    seller: "ColorfulCreations",
+    sellerId: 2,
+    description: "A precision set of craft scissors and cutting tools designed for clean, accurate cuts on paper, fabric, and more."
   },
   {
     id: 8,
@@ -71,6 +83,9 @@ export const products = [
     category: "Storage & Organization",
     rating: 4.9,
     image: "/images/products/craft_supplies_organizer.webp",
+    seller: "ColorfulCreations",
+    sellerId: 2,
+    description: "A spacious multi-compartment organizer that keeps yarn, brushes, and tools tidy and within easy reach."
   },
   {
     id: 9,
@@ -79,6 +94,9 @@ export const products = [
     category: "Yarn & Knitting",
     rating: 4.8,
     image: "/images/products/luxury_knitting_yarn.webp",
+    seller: "CozyCrafts",
+    sellerId: 1,
+    description: "Premium, silky-soft knitting yarn that drapes beautifully, ideal for garments and heirloom-quality pieces."
   },
   {
     id: 10,
@@ -87,6 +105,9 @@ export const products = [
     category: "Yarn & Knitting",
     rating: 4.6,
     image: "/images/products/pastel_yarn_set.webp",
+    seller: "ColorfulCreations",
+    sellerId: 2,
+    description: "A soothing set of pastel-toned yarns, perfect for baby blankets, soft accessories, and gentle color palettes."
   },
   {
     id: 11,
@@ -95,6 +116,9 @@ export const products = [
     category: "Paints & Brushes",
     rating: 4.9,
     image: "/images/products/professional_brush_set.webp",
+    seller: "BrushMasters",
+    sellerId: 3,
+    description: "A professional-grade brush set with durable bristles and balanced handles for studio and plein-air work."
   },
   {
     id: 12,
@@ -103,5 +127,8 @@ export const products = [
     category: "Paints & Brushes",
     rating: 4.7,
     image: "/images/products/watercolor_paint_set.webp",
+    seller: "BrushMasters",
+    sellerId: 3,
+    description: "A vibrant watercolor paint set with smooth, lightfast pigments that blend effortlessly for washes and detail."
   },
 ];
