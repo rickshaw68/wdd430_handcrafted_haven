@@ -28,6 +28,7 @@ export default function Home() {
   // throw new Error("Simulated error for testing error handling");
 
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
+  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() =>
@@ -39,7 +40,11 @@ export default function Home() {
     [filters, search]
   );
 
-  const reset = () => { setFilters(DEFAULT_FILTERS); setSearch(""); };
+  const reset = () => {
+  setFilters(DEFAULT_FILTERS);
+  setSearch("");
+  setSearchInput("");
+};
 
   return (
 
@@ -64,11 +69,25 @@ export default function Home() {
             <input
               id="search"
               type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setSearch(searchInput);
+                }
+              }}
+              
               placeholder="Search for craft supplies..."
               className="w-full bg-transparent text-sm text-neutral-800 placeholder-neutral-500 outline-none"
             />
-
-            <span className="text-xl text-neutral-700">🔍</span>
+            <button
+              type="button"
+              onClick={() => setSearch(searchInput)}
+              className="text-xl text-neutral-700"
+              aria-label="Search"
+            >
+              🔍
+            </button>
           </div>
         </div>
       </section>
