@@ -24,7 +24,7 @@ export default function SellerPage() {
     console.log("Seller products:", sellerProducts);
 
     return (
-        <main className="p-6">
+        <main className="p-6 bg-neutral-50 min-h-screen">
             <div className="max-w-3xl mx-auto">
                 <div className="block items-center gap-4 bg-gradient-to-r from-teal-500 to-cyan-500 p-4 rounded-2xl text-white">
                     <Link href="/" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-cyan-100 mb-4 hover:text-white hover:underline">

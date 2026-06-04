@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
 
-    <main className="flex-grow bg-neutral-50">
+    <main className="flex-grow bg-neutral-50 min-h-screen">
 
      {/* Hero section */}
      <section className="bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white">
