@@ -5,5 +5,5 @@ export interface FilterState {
   maxPrice: number;
 }
 
-export const PRICE_MAX = 100;
+export const PRICE_MAX = 300;
 export const DEFAULT_FILTERS: FilterState = { categories: [], maxPrice: PRICE_MAX };
