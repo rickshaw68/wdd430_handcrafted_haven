@@ -16,6 +16,7 @@ const getIcon = (id: number) => {
 };
 
 export default function Dashboard() {
+  
   return (
     <main className="p-8 max-w-5xl mx-auto bg-stone-50">
       <h1 className="text-2xl font-bold text-stone-900">Welcome back, Admin</h1>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 //import { useEffect, useState } from 'react'; // Importing useState and useEffect for authentication state management which will be implemented later
-import { logout } from '../app/login/actions'; // Import your server action
+import { logout } from '../app/lib/actions'; // Import your server action
 
 export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }) {
     const pathname = usePathname();
