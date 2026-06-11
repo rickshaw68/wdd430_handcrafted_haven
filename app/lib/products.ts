@@ -19,7 +19,7 @@ export type Product = {
 
 export async function getProducts(): Promise<Product[]> {
   const products = await sql<Product[]>`
-    SELECT id, name, price, category, rating, image, seller, seller_id, description
+    SELECT id, name, price::float AS price, category, rating::float AS rating, image, seller, seller_id, description
     FROM products
     ORDER BY id;
   `;

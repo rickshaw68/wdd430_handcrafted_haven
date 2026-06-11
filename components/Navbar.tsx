@@ -17,7 +17,7 @@ export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }
 
     const links = [
         { name: 'Discover', href: '/discover' },
-        { name: 'Artisans', href: '/artisans' },
+        { name: 'Artisans', href: '/sellers' },
         { name: 'Workshops', href: '/workshops' },
         { name: 'About', href: '/about' },
     ];
