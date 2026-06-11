@@ -1,3 +1,4 @@
+import "server-only";
 import postgres from "postgres";
 
 const sql = postgres(process.env.POSTGRES_URL!, {
@@ -73,4 +74,35 @@ export async function deleteProduct(id: number) {
   `;
 
   return result[0];
+}
+export async function getProduct(id: number): Promise<Product | null> {
+  const result = await sql<Product[]>`
+    SELECT
+      id,
+      name,
+      price,
+      category,
+      rating,
+      image,
+      seller,
+      seller_id,
+      description
+    FROM products
+    WHERE id = ${id}
+  `;
+
+  return result[0] ?? null;
+}
+
+export async function getProductsByCategory(
+  category: string,
+  excludeId: number
+): Promise<Product[]> {
+  return sql<Product[]>`
+    SELECT *
+    FROM products
+    WHERE category = ${category}
+      AND id != ${excludeId}
+    LIMIT 4
+  `;
 }

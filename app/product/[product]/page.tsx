@@ -1,36 +1,25 @@
-'use client';
-
 import ReviewBoard from "@/components/ReviewBoard";
 import { reviewSet } from "@/data/reviews";
-import { products } from "@/data/products";
-import { useParams } from "next/navigation";
+import { getProduct, getProductsByCategory } from "@/app/lib/products";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 
-export default function SellerPage() {
-    const params = useParams();
-    const CheckIcon = () => (
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-check"><path d="M20 6L9 17l-5-5"></path></svg>
-    );
-    const XIcon = () => (
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6L6 18M6 6l12 12"></path></svg>
-    );
-
-    const product = products.find(p => p.id === Number(params.product));
-    console.log("Product found:", product);
+export default async function ProductPage({ params, }: { params: Promise<{ product: string }>; }) {
+    const { product: productId } = await params;
+    const product = await getProduct(Number(productId));
 
     if (!product) {
         return <div>Product not found</div>;
     }
 
-    const likeProducts = products.filter(
-        p => p.category === product.category && p.id !== product.id
-
+    const likeProducts = await getProductsByCategory(
+        product.category,
+        product.id
     );
-    const reviews = reviewSet.filter(r => r.productId === product.id);
-    console.log("Like items:", likeProducts);
-    console.log("Product Reviews:", reviews);
 
+    const reviews = reviewSet.filter(
+        r => r.productId === product.id
+    );
     return (
         <main className="p-6 bg-neutral-50 min-h-screen">
             <div className="max-w-3xl mx-auto">
@@ -46,7 +35,7 @@ export default function SellerPage() {
                         <div>
                             <h1 className="text-2xl font-bold">{product.name}</h1>
                             <p className="inline-flex items-center gap-1 text-sm text-white/80">
-                                Sold by: <Link href={`/seller/${product.sellerId}`} className="text-cyan-100 hover:text-white hover:underline">
+                                Sold by: <Link href={`/seller/${product.seller_id}`} className="text-cyan-100 hover:text-white hover:underline">
                                     {product.seller}
                                 </Link>
                             </p>
@@ -69,7 +58,7 @@ export default function SellerPage() {
                 </div>
                 <div className="mt-4" id="product-reviews">
                     <div className="mt-4">
-                        {ReviewBoard(product.id)}
+                        <ReviewBoard productId={product.id} />
                     </div>
                 </div>
                 <div className="mt-4">

@@ -1,10 +1,15 @@
-import { MarketplaceReview } from "@/data/reviews";
+'use client';
+
 import { useState } from "react";
 import { reviewSet } from "@/data/reviews";
 
 const REVIEWS_PER_PAGE = 4;
 
-export default function ReviewBoard(productId: number) {
+type ReviewBoardProps = {
+  productId: number;
+};
+
+export default function ReviewBoard({ productId, }: ReviewBoardProps)  {
     const [visibleCount, setVisibleCount] = useState(REVIEWS_PER_PAGE);
     const visibleReviews = reviewSet.slice(0, visibleCount);
     const hasMore = visibleCount < reviewSet.length;
