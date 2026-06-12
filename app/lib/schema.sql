@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS products (
     description TEXT
 );
 
-CREATE TABLE IF NOT EXISTS users (
+/*CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     role TEXT NOT NULL DEFAULT 'customer'
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+);*/

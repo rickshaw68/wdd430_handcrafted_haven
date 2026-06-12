@@ -6,13 +6,17 @@ import clsx from 'clsx';
 //import { useEffect, useState } from 'react'; // Importing useState and useEffect for authentication state management which will be implemented later
 import { logout } from '../app/lib/actions'; // Import your server action
 
-export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }) {
+export default function Navbar({ isAuthenticated, role }: { isAuthenticated: boolean, role?: string }) {
+  // Determine the correct path
+  const dashboardHref = role === 'seller' 
+    ? '/dashboard/sellerdashboard' 
+    : '/dashboard/userdashboard';
     const pathname = usePathname();
 
     
     const handleLogout = async () => {
         await logout();
-        window.location.reload(); // Refresh to clear client-side state
+      
     };
 
     const links = [
@@ -85,7 +89,7 @@ export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }
                 {isAuthenticated ? (
                      <div className="flex items-center gap-4">
                      {/* Dashboard Link */}
-                     <Link href="/dashboard" className="text-slate-600 hover:text-teal-600 font-medium text-sm">
+                     <Link href={dashboardHref} className="text-slate-600 hover:text-teal-600 font-medium text-sm">
                       Dashboard
                      </Link>
 

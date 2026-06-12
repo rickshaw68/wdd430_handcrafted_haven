@@ -21,25 +21,6 @@ export const metadata: Metadata = {
   description: "Shop for handcrafted items from local sellers",
 };
 
-// export default function RootLayout({
-//   children,
-// }: Readonly<{
-//   children: React.ReactNode;
-// }>) {
-//   return (
-//     <html
-//       lang="en"
-//       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`} suppressHydrationWarning={true}
-//     >
-//       <body className="min-h-screen flex flex-col">
-//         <NavBar />
-//         {children}
-//         <Footer />
-//       </body>
-//     </html>
-//   );
-// }
-
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -52,7 +33,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className="bg-stone-50 text-stone-900">
-      <NavBar isAuthenticated={isAuthenticated} />
+      <NavBar isAuthenticated={!!session?.userId} 
+          role={session?.role as string} 
+        />
         {children}
         <Footer/>
       </body>

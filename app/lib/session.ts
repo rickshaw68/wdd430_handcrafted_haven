@@ -5,9 +5,19 @@ import { cookies } from "next/headers";
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function createSession(userId: string) {
+
+type SessionPayload = {
+  userId: string;
+  role: string; // Added role
+  expiresAt: Date;
+};
+
+// 2. Update createSession to accept the role
+export async function createSession(userId: string, role: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const session = await encrypt({ userId, expiresAt });
+  
+  // Pass the role into the payload
+  const session = await encrypt({ userId, role, expiresAt });
 
   (await cookies()).set("session", session, {
     httpOnly: true,
@@ -20,10 +30,6 @@ export async function deleteSession() {
   (await cookies()).delete("session");
 }
 
-type SessionPayload = {
-  userId: string;
-  expiresAt: Date;
-};
 
 export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
@@ -34,12 +40,14 @@ export async function encrypt(payload: SessionPayload) {
 }
 
 export async function decrypt(session: string | undefined = "") {
+  if (!session) return null; // Add this line
   try {
     const { payload } = await jwtVerify(session, encodedKey, {
       algorithms: ["HS256"],
     });
-    return payload;
+    return payload as SessionPayload;
   } catch (error) {
-    console.log("Failed to verify session");
+    // Only log if it's a real decryption error, not just an empty session
+    return null;
   }
 }
