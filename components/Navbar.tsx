@@ -3,16 +3,23 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-//import { useEffect, useState } from 'react'; // Importing useState and useEffect for authentication state management which will be implemented later
-import { logout } from '../app/login/actions'; // Import your server action
+import { logout } from '../app/lib/actions'; 
 
-export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }) {
+export default function Navbar({ isAuthenticated, role,firstName,lastName }: { isAuthenticated: boolean; role?: string; firstName?: string; lastName?: string;}) {
+  const initials = firstName && lastName 
+    ? `${firstName[0]}${lastName[0]}`.toUpperCase() 
+    : 'U'; // Default to 'U' if names are missing
+  
+    // Determine the correct path
+   const dashboardHref = role === 'seller' 
+    ? '/dashboard/sellerdashboard' 
+    : '/dashboard/userdashboard';
     const pathname = usePathname();
 
     
     const handleLogout = async () => {
         await logout();
-        window.location.reload(); // Refresh to clear client-side state
+      
     };
 
     const links = [
@@ -85,14 +92,14 @@ export default function Navbar({ isAuthenticated }: { isAuthenticated: boolean }
                 {isAuthenticated ? (
                      <div className="flex items-center gap-4">
                      {/* Dashboard Link */}
-                     <Link href="/dashboard" className="text-slate-600 hover:text-teal-600 font-medium text-sm">
+                     <Link href={dashboardHref} className="text-slate-600 hover:text-teal-600 font-medium text-sm">
                       Dashboard
                      </Link>
 
                     {/* Avatar + Logout Button */}
                     <div className="flex items-center gap-3 border-l pl-4 border-slate-200">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs shadow-sm">
-                        AD
+                        {initials}
                         </div> 
  
 

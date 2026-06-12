@@ -1,59 +1,48 @@
-// import { cookies } from "next/headers";
-// import { NextRequest, NextResponse } from "next/server";
-// import { decrypt } from "./app/lib/session";
-
-// const protectedRoutes = ["/dashboard"];
-// const publicRoutes = ["/login"];
-
-// export default async function middleware(req: NextRequest) {
-//   const path = req.nextUrl.pathname;
-//   const isProtectedRoute = protectedRoutes.includes(path);
-//   const isPublicRoute = publicRoutes.includes(path);
-
-//   const cookie = (await cookies()).get("session")?.value;
-//   const session = await decrypt(cookie);
-
-//   if (isProtectedRoute && !session?.userId) {
-//     return NextResponse.redirect(new URL("/login", req.nextUrl));
-//   }
-
-//   if (isPublicRoute && session?.userId) {
-//     return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
-//   }
-
-//   return NextResponse.next();
-// }
-
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "./app/lib/session";
 
-const protectedRoutes = ["/dashboard"];
-const publicRoutes = ["/login"];
-
 export async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
-  const isProtectedRoute = protectedRoutes.includes(path);
-  const isPublicRoute = publicRoutes.includes(path);
 
-  // Decrypt the session
+  // 1. Only protect routes starting with /dashboard
+  const isProtectedRoute = path.startsWith("/dashboard");
+
+  if (path === "/login") {
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
-
-  // Redirect to login if accessing a protected route without a session
-  if (isProtectedRoute && !session?.userId) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
-  }
-
-  // Redirect to dashboard if accessing login while already authenticated
-  if (isPublicRoute && session?.userId) {
+  if (session?.userId) {
     return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
   }
+}
 
+  if (isProtectedRoute) {
+    const cookie = (await cookies()).get("session")?.value;
+    const session = await decrypt(cookie);
+
+    // If no session, force redirect to login
+    if (!session?.userId) {
+      return NextResponse.redirect(new URL("/login", req.nextUrl));
+    }
+
+    // Role-based restriction logic
+    if (path.startsWith("/dashboard/seller") && session.role !== "seller") {
+      return NextResponse.redirect(new URL("/dashboard/userdashboard", req.nextUrl));
+    }
+
+    if (path.startsWith("/dashboard/user") && session.role !== "user") {
+      return NextResponse.redirect(new URL("/dashboard/sellerdashboard", req.nextUrl));
+    }
+  }
+
+  // 2. Everything else (home, about, contact, etc.) is automatically allowed
   return NextResponse.next();
 }
 
-// Ensure the matcher targets the paths you want the proxy to intercept
 export const config = {
-  matcher: ['/dashboard/:path*', '/login'],
+  // Keep the matcher broad so the middleware runs, 
+  // but let the logic inside determine the protection
+  matcher: ['/((?!api|_next/static|_next/image|images/|favicon.ico).*)'],
 };
+
+
