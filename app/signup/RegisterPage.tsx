@@ -53,7 +53,7 @@ export default function RegisterPage() {
           </>
         ) : (
           <>
-            <p className="text-sm text-gray-700">Continue to register as a <strong>business</strong>.</p>
+            <p className="text-sm text-gray-700">Continue to register as a <strong>Seller</strong>.</p>
             <div className="flex flex-col gap-4">
               <div className="flex gap-2">
                 <input name="firstName" type="text" placeholder="First name" className="w-1/2 border p-2 rounded text-black" required />

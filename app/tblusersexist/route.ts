@@ -49,3 +49,22 @@
 //     return NextResponse.json({ error: "Failed to create table" }, { status: 500 });
 //   }
 // }
+
+
+// import { NextResponse } from 'next/server';
+// import { sql } from '@vercel/postgres';
+
+// export async function GET() {
+//   try {
+//     // Query the information_schema to get all user tables
+//     const { rows } = await sql`
+//       SELECT table_name 
+//       FROM information_schema.tables 
+//       WHERE table_schema = 'public'
+//     `;
+
+//     return NextResponse.json({ tables: rows }, { status: 200 });
+//   } catch (error) {
+//     return NextResponse.json({ error: 'Failed to fetch tables' }, { status: 500 });
+//   }
+// }

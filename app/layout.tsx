@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { decrypt } from "./lib/session";
 import NavBar from '@/components/Navbar';
 import Footer from "@/components/Footer";
+import sql from "@/lib/db"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,11 +31,26 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   const session = await decrypt(cookie);
   const isAuthenticated = !!session?.userId;
 
+  interface UserRow {
+  firstname: string;
+  lastname: string;
+}
+ let user: UserRow = { firstname: "", lastname: "" };
+
+  const userId = session?.userId as string | undefined;
+
+  if (userId) {
+    const result = await sql<UserRow[]>`SELECT firstname, lastname FROM users WHERE id = ${userId}`;
+      user = result[0] || user;
+  }
+
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className="bg-stone-50 text-stone-900">
-      <NavBar isAuthenticated={!!session?.userId} 
+      <NavBar isAuthenticated={isAuthenticated} 
           role={session?.role as string} 
+          firstName={user?.firstname}
+          lastName={user?.lastname}
         />
         {children}
         <Footer/>

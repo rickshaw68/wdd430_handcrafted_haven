@@ -5,6 +5,7 @@ import { createSession, deleteSession } from "../lib/session";
 import { redirect } from "next/navigation";
 import bcrypt from 'bcryptjs';
 import postgres from "postgres";
+import { cookies } from 'next/headers'
 import { NextResponse } from "next/server";
 
 const sql = postgres(process.env.POSTGRES_URL!, {
@@ -141,64 +142,30 @@ export async function fetchProducts() {
 
 
 
-// const testUser = {
-//   id: "1",
-//   email: "user@nextmail.com",
-//   password: "12345678",
-// };
 
-// const loginSchema = z.object({
-//   email: z.string().email({ message: "Invalid email address" }).trim(),
-//   password: z
-//     .string()
-//     .min(8, { message: "Password must be at least 8 characters" })
-//     .trim(),
-// });
+export async function updateProfile(userId: string, formData: FormData) {
+  const firstName = (formData.get('firstName') as string)?.trim();
+  const lastName = (formData.get('lastName') as string)?.trim();
+  const password = (formData.get('password') as string)?.trim();
 
-// export async function login(prevState: any, formData: FormData) {
-//   const result = loginSchema.safeParse(Object.fromEntries(formData));
+  if (!firstName || !lastName) {
+    return { error: 'First and Last name cannot be empty.' };
+  }
 
-//   if (!result.success) {
-//     return {
-//       errors: result.error.flatten().fieldErrors,
-//     };
-//   }
+  try {
+    if (password && password.length > 0) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await sql`UPDATE users SET firstname = ${firstName}, lastname = ${lastName}, password_hash = ${hashedPassword} WHERE id = ${userId}`;
+      
+      // Clear session to force re-login
+      (await cookies()).delete('session');
+      return { success: true, needsRelogin: true };
+    } else {
+      await sql`UPDATE users SET firstname = ${firstName}, lastname = ${lastName} WHERE id = ${userId}`;
+      return { success: true, needsRelogin: false };
+    }
+  } catch (error) {
+    return { error: 'Failed to update database.' };
+  }
+}
 
-//   const { email, password } = result.data;
-
-//   if (email !== testUser.email || password !== testUser.password) {
-//     return {
-//       errors: {
-//         email: ["Invalid email or password"],
-//       },
-//     };
-//   }
-
-//   await createSession(testUser.id);
-
-//   redirect("/dashboard");
-// }
-
-
-// export async function POST() {
-//   try {
-//     // 1. Drop and Recreate
-//     await sql`DROP TABLE IF EXISTS users`;
-    
-//     await sql`
-//       CREATE TABLE users (
-//         id SERIAL PRIMARY KEY,
-//         name VARCHAR(255) NOT NULL,
-//         email VARCHAR(255) UNIQUE NOT NULL,
-//         password_hash VARCHAR(255) NOT NULL,
-//         role VARCHAR(50) DEFAULT 'user',
-//         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-//       )
-//     `;
-
-//     return NextResponse.json({ message: "Table reset successfully" }, { status: 200 });
-//   } catch (error) {
-//     console.error("Database reset error:", error);
-//     return NextResponse.json({ error: "Failed to reset table" }, { status: 500 });
-//   }
-// }
