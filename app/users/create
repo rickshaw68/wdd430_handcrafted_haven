@@ -1,17 +1,17 @@
-const handleRecreateTable = async () => {
-  try {
-    const response = await fetch('/api/tblusersexist/recreate', {
-      method: 'POST',
-    });
+// const handleRecreateTable = async () => {
+//   try {
+//     const response = await fetch('/api/tblusersexist/recreate', {
+//       method: 'POST',
+//     });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data.message);
-      alert("Table recreated successfully!");
-    } else {
-      alert("Failed to recreate the table.");
-    }
-  } catch (error) {
-    console.error("Network error:", error);
-  }
-};
+//     if (response.ok) {
+//       const data = await response.json();
+//       console.log(data.message);
+//       alert("Table recreated successfully!");
+//     } else {
+//       alert("Failed to recreate the table.");
+//     }
+//   } catch (error) {
+//     console.error("Network error:", error);
+//   }
+// };
