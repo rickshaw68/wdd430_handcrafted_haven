@@ -41,6 +41,7 @@ export default function RegisterPage() {
         <input type="hidden" name="accountType" value={accountType} />
         {accountType === 'personal' ? (
           <>
+            <p className="text-sm text-gray-700">Continue to register as a <strong>Buyer</strong>.</p>
             <div className="flex gap-2">
               <input name="firstName" type="text" placeholder="First name" className="w-1/2 border p-2 rounded text-black" required />
               <input name="lastName" type="text" placeholder="Last name" className="w-1/2 border p-2 rounded text-black" required />

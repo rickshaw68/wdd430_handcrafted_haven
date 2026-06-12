@@ -1,3 +1,5 @@
+
+
 'use client';
 
 import { useState } from 'react';
@@ -115,3 +117,81 @@ const handleAction = (id: number, action: 'Confirmed' | 'Cancelled') => {
 );
 
 }
+
+
+
+// 'use client'
+// import { useState } from "react";
+// import AccountDetails from "@/components/UserAccountDetails";
+// import OrderTable from "@/components/UserOrderTable";
+
+// export default function UserDashboard({ user, userId }: { user: any, userId: string }) {
+//   const [activeTab, setActiveTab] = useState<'account' | 'orders'>('account');
+
+//   interface Order {
+//   id: number;
+//   productName: string;
+//   status: 'Pending' | 'Confirmed' | 'Cancelled';
+//   date: string;
+// }
+
+// const [orders, setOrders] = useState<Order[]>([
+//   { id: 101, productName: 'Handcrafted Vase', status: 'Pending', date: '2026-06-09' },
+//   { id: 102, productName: 'Woven Basket', status: 'Pending', date: '2026-06-10' },
+//   { id: 103, productName: 'Ceramic Mug', status: 'Confirmed', date: '2026-06-10' },
+//   { id: 104, productName: 'Wool Scarf', status: 'Pending', date: '2026-06-11' },
+//   { id: 105, productName: 'Wooden Tray', status: 'Cancelled', date: '2026-06-11' },
+// ]);
+ 
+
+//   const handleAction = (id: number, action: 'Confirmed' | 'Cancelled') => {
+//   setOrders(prev => prev.map(o => o.id === id ? { ...o, status: action } : o));
+// };
+//   const handleProfileSubmit = async (formData: FormData) => {
+//   const fn = formData.get('firstName') as string;
+//   const ln = formData.get('lastName') as string;
+  
+//   // ... rest of your logic
+// };
+
+//   return (
+//     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow rounded-lg">
+//       <h1 className="text-2xl font-bold mb-6 text-black">My Dashboard</h1>
+      
+//       {/* Tab Navigation Buttons */}
+//       <div className="flex gap-4 border-b mb-6 text-black">
+//          <button onClick={() => setActiveTab('account')}>Account</button>
+//          <button onClick={() => setActiveTab('orders')}>Orders</button>
+//       </div>
+
+//       {activeTab === 'account' ? (
+//         <AccountDetails user={user} onUpdate={handleProfileSubmit} />
+//       ) : (
+//         <OrderTable orders={orders} onAction={handleAction} />
+//       )}
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
