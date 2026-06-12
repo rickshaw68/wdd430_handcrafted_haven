@@ -1,25 +1,25 @@
-// import { NextResponse } from 'next/server';
-// import postgres from 'postgres';
+import { NextResponse } from 'next/server';
+import postgres from 'postgres';
 
-// const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-// export async function GET() {
-//   try {
-//     const result = await sql`
-//       SELECT EXISTS (
-//         SELECT FROM information_schema.tables 
-//         WHERE table_name = 'users'
-//       );
-//     `;
+export async function GET() {
+  try {
+    const result = await sql`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'users'
+      );
+    `;
 
-//     // result[0].exists will be true or false
-//     const exists = result[0].exists;
+    // result[0].exists will be true or false
+    const exists = result[0].exists;
 
-//     return NextResponse.json({ tableExists: exists });
-//   } catch (error) {
-//     return NextResponse.json({ error: "Query failed" }, { status: 500 });
-//   }
-// }
+    return NextResponse.json({ tableExists: exists });
+  } catch (error) {
+    return NextResponse.json({ error: "Query failed" }, { status: 500 });
+  }
+}
 
 
 
