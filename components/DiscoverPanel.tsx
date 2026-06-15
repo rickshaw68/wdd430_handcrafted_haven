@@ -5,9 +5,9 @@ export default async function DiscoverPanel() {
   const latestProducts = await sortLatestProducts(4);
 
   return (
-    <div className="flex flex-col items-center justify-center border rounded-2xl border-neutral-200 bg-white p-6 shadow-sm space-y-6 self-start top-6">
-      <h2 className="text-2xl font-bold mb-4">
-        These are the latest of Craftsmanships from our Handworkers and Creators
+    <div className="flex flex-col items-center justify-center gap-4 bg-transparent">
+      <h2 className="text-2xl text-neutral-700 font-bold mb-4 top-3 bg-white px-8 py-7 rounded-lg shadow-lg">
+        Discover the latest of Craftsmanships from our Handworkers and Creators
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {latestProducts.map((product) => (

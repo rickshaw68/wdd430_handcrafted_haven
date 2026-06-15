@@ -22,7 +22,7 @@ export default async function SellerDiscoverPanel({ sellers, fallback = false }:
     if (latestProducts.length === 0 && fallback) {
         return ( 
             <div className="flex flex-col items-center justify-center border rounded-2xl border-neutral-200 bg-white p-6 shadow-sm space-y-6 self-start top-6">
-                <h2 className="text-slate-500 text-sm">No Recent Purchases found. Keep exploring our great selection!</h2>
+                <h2 className="text-neutral-500 text-sm">No Recent Purchases found. Keep exploring our great selection!</h2>
                 <Link className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-lg hover:from-cyan-600 hover:to-teal-600 transition-all shadow-md cursor-pointer w-48 mt-6" href="/">Go back to Home</Link>
             </div>
         );
