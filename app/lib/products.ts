@@ -106,3 +106,25 @@ export async function getProductsByCategory(
     LIMIT 4
   `;
 }
+
+export async function sortLatestProducts(limit: number): Promise<Product[]> {
+  return sql<Product[]>`
+    SELECT *
+    FROM products
+    ORDER BY id DESC
+    LIMIT ${limit}
+  `;
+}
+
+export async function sortBySeller(seller: string, limit: number): Promise<Product[]> {
+    if (!seller) {
+        return [];
+    }
+    return sql<Product[]>`
+        SELECT *
+        FROM products
+        WHERE seller = ${seller}
+        ORDER BY id DESC
+        LIMIT ${limit}
+    `;
+}
