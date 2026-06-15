@@ -32,7 +32,7 @@ export default async function SellerDiscoverPanel({ sellers, fallback = false }:
         <div className="flex flex-col items-center justify-center border rounded-2xl border-neutral-200 bg-white p-6 shadow-sm space-y-6 self-start top-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {latestProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product} />
                 ))}
             </div>
         </div>
