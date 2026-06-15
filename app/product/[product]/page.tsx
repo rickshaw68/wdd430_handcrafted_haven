@@ -3,10 +3,18 @@ import { reviewSet } from "@/data/reviews";
 import { getProduct, getProductsByCategory } from "@/app/lib/products";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
+import { getSession } from '@/app/lib/session';
+import postgres from "postgres";
+
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 export default async function ProductPage({ params, }: { params: Promise<{ product: string }>; }) {
     const { product: productId } = await params;
     const product = await getProduct(Number(productId));
+    const session = await getSession();
+    const reviewerName = session?.userId 
+    ? (await sql`SELECT firstname FROM users WHERE id = ${session.userId}`)[0]?.firstname ?? "Anonymous"
+    : "Anonymous";
 
     if (!product) {
         return <div>Product not found</div>;
@@ -58,7 +66,7 @@ export default async function ProductPage({ params, }: { params: Promise<{ produ
                 </div>
                 <div className="mt-4" id="product-reviews">
                     <div className="mt-4">
-                        <ReviewBoard productId={product.id} />
+                        <ReviewBoard productId={product.id} reviewerName={reviewerName} />
                     </div>
                 </div>
                 <div className="mt-4">
