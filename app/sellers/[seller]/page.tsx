@@ -10,7 +10,7 @@ export default function SellerPage() {
     const params = useParams();
     const sellerName = params.seller;
 
-    const seller = sellers.find(s => s.name === sellerName);
+    const seller = sellers.find(s => s.id === Number(sellerName));
     console.log("Seller found:", seller);
 
     if (!seller) {
