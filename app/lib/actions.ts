@@ -8,6 +8,7 @@ import postgres from "postgres";
 import { cookies } from 'next/headers'
 import { NextResponse } from "next/server";
 import { revalidatePath } from 'next/cache';
+import { type Review } from "./types";
 
 const sql = postgres(process.env.POSTGRES_URL!, {
   ssl: "require",
@@ -310,4 +311,31 @@ export async function deleteProduct(productId: number) {
   } catch (error) {
     throw new Error('Failed to delete product');
   }
+}
+export async function submitReview(formData: {
+  productId: number;
+  reviewerName: string;
+  title: string;
+  comment: string;
+  rating: number;
+}) {
+  await sql`
+    INSERT INTO reviews (product_id, reviewer_name, title, comment, rating)
+    VALUES (
+      ${formData.productId},
+      ${formData.reviewerName},
+      ${formData.title},
+      ${formData.comment},
+      ${formData.rating}
+    )
+  `;
+}
+
+export async function getReviews(productId: number) {
+  const rows = await sql`
+    SELECT * FROM reviews
+    WHERE product_id = ${productId}
+    ORDER BY review_date DESC
+  `;
+  return rows as unknown as Review[];
 }
