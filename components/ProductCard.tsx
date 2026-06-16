@@ -61,7 +61,7 @@ return (
             </h3>
 
             <div className="mt-2 text-sm text-neutral-600">
-                <Link href={`/sellers/${cleanedUpProduct.seller}`} rel="noopener noreferrer" className="inline-flex items-center gap-1 text-cyan-600 hover:underline">
+                <Link href={`/sellers/${cleanedUpProduct.id}`} rel="noopener noreferrer" className="inline-flex items-center gap-1 text-cyan-600 hover:underline">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     {cleanedUpProduct.seller}
                 </Link>
