@@ -1,16 +1,36 @@
+'use client';
 import { useState } from 'react';
 
 export default function AccountDetails({ user, onUpdate }: { user: any, onUpdate: (formData: FormData) => void }) {
   const [isEditing, setIsEditing] = useState(false);
-  // ... Move state like 'error' and form logic here
-  return (
-    !isEditing ? (
-       <div className="space-y-4 text-black">
-         <p><strong>Name:</strong> {user.firstname} {user.lastname}</p>
-         <button onClick={() => setIsEditing(true)}>Edit</button>
-       </div>
-    ) : (
-       <form action={onUpdate}> {/* ... inputs ... */} </form>
-    )
+
+  return !isEditing ? (
+    <div className="space-y-4 text-black">
+      <p><strong>Name:</strong> {user.firstname} {user.lastname}</p>
+      <p><strong>Email:</strong> {user.email}</p>
+      <button 
+        onClick={() => setIsEditing(true)} 
+        className="font-bold text-blue-600 underline cursor-pointer"
+      >
+        Edit Profile
+      </button>
+    </div>
+  ) : (
+    <form action={onUpdate} className="space-y-4 text-black">
+      <input name="firstName" defaultValue={user.firstname} className="border p-2 w-full rounded" placeholder="First Name" />
+      <input name="lastName" defaultValue={user.lastname} className="border p-2 w-full rounded" placeholder="Last Name" />
+      <input name="password" type="password" placeholder="New Password (optional)" className="border p-2 w-full rounded" />
+      <div className="flex gap-2">
+        
+        <button type="submit" className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded cursor-pointer transition-colors duration-200">
+          Save Changes
+        </button>
+
+       <button type="button" onClick={() => setIsEditing(false)} className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded cursor-pointer transition-colors duration-200">
+         Cancel
+</button>  
+
+      </div>
+    </form>
   );
 }

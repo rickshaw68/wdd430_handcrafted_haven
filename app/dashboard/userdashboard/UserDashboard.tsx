@@ -1,189 +1,166 @@
 
-
 'use client';
-
 import { useState } from 'react';
-import { updateProfile } from '@/app/lib/actions'; // Your Server Action
-import { useRouter } from 'next/navigation';
+import AccountDetails from '@/components/UserAccountDetails';
+import UserOrderTable from '@/components/UserOrderTable';
+
+interface Order { id: number; productName: string; quantity:string; status: 'Pending' | 'Confirmed' | 'Cancelled'; total:string; date: string; }
 
 export default function UserDashboard({ user, userId }: { user: any, userId: string }) {
   const [activeTab, setActiveTab] = useState<'account' | 'orders'>('account');
-  const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
-  const [orders, setOrders] = useState([
-    { id: 101, productName: 'Handcrafted Vase', status: 'Pending', date: '2026-06-09' },
-    { id: 102, productName: 'Woven Basket', status: 'Pending', date: '2026-06-10' },
-    { id: 103, productName: 'Ceramic Mug', status: 'Confirmed', date: '2026-06-10' },
-    { id: 104, productName: 'Wool Scarf', status: 'Pending', date: '2026-06-11' },
-    { id: 105, productName: 'Wooden Tray', status: 'Cancelled', date: '2026-06-11' },
+  const [orders, setOrders] = useState<Order[]>([
+    { id: 101, productName: 'Handcrafted Vase', quantity:'2', status: 'Pending', total:'$156', date: '2026-06-09' },
+    { id: 102, productName: 'Woven Basket', quantity:'5', status: 'Cancelled',  total:'$726', date: '2026-06-10' },
+    { id: 103, productName: 'Ceramic Mug', quantity:'6',status: 'Confirmed', total:'$876',date: '2026-06-10' },
+    { id: 104, productName: 'Wool Scarf', quantity:'10',status: 'Pending',  total:'$856', date: '2026-06-11' },
+    { id: 105, productName: 'Wooden Tray', quantity:'8',status: 'Pending',  total:'$526', date: '2026-06-11' },
   ]);
 
-const handleAction = (id: number, action: 'Confirmed' | 'Cancelled') => {
+  const handleAction = (id: number, action: 'Confirmed' | 'Cancelled') => {
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: action } : o));
   };
 
-  // Handle Profile Update
-  async function handleProfileSubmit(formData: FormData) {
-    const fn = formData.get('firstName') as string;
-    const ln = formData.get('lastName') as string;
-    const result = await updateProfile(userId, formData);
+  const handleProfileSubmit = async (formData: FormData) => {
+    // Keep your updateProfile server action logic here
+    
+  };
 
-    if (!fn.trim() || !ln.trim()) {
-      setError("Name fields cannot be empty!");
-      return;
-    } 
-
-
-    if (result.error) {
-      setError(result.error);
-    } else if (result.needsRelogin) {
-      // Force navigation to login if password was changed
-      router.push('/login');
-    }else{
-      setError(null);
-      setIsEditing(false);
-      window.location.reload(); 
-    }
-  }
   return (
-  <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow rounded-lg">
-    <h1 className="text-2xl font-bold mb-6 text-black">My Dashboard</h1>
+    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow rounded-lg">
+      <h1 className="text-2xl font-bold mb-6 text-black">My Dashboard</h1>
 
-    {/* ADD THIS SECTION BACK IN */}
-    <div className="flex gap-4 border-b mb-6 text-black">
-      <button 
-        onClick={() => setActiveTab('account')} 
-        className={`pb-2 ${activeTab === 'account' ? 'border-b-2 border-cyan-500 font-bold' : ''}`}
-      >
-        Account Details
-      </button>
-      <button 
-        onClick={() => setActiveTab('orders')} 
-        className={`pb-2 ${activeTab === 'orders' ? 'border-b-2 border-cyan-500 font-bold' : ''}`}
-      >
-        My Orders
-      </button>
-    </div>
+      <div className="flex gap-4 border-b mb-6 text-black">
+        <button onClick={() => setActiveTab('account')} className={`pb-2 ${activeTab === 'account' ? 'border-b-4 border-cyan-500 font-bold' : ''}`}>Account Details</button>
+        <button onClick={() => setActiveTab('orders')} className={`pb-2 ${activeTab === 'orders' ? 'border-b-4 border-cyan-500 font-bold' : ''}`}>My Orders</button>
+      </div>
 
-    {/* Now the logic for the tabs will work */}
-    {activeTab === 'account' ? (
-      !isEditing ? (
-        <div className="space-y-4 text-black">
-          <p><strong>Name:</strong> {user.firstname} {user.lastname}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <button onClick={() => setIsEditing(true)} className="text-sm text-cyan-600 underline">Edit Profile</button>
-        </div>
+      {activeTab === 'account' ? (
+        <AccountDetails user={user} onUpdate={handleProfileSubmit} />
       ) : (
-        <form action={handleProfileSubmit} className="space-y-4 text-black">
-          {error && <p className="text-red-500 text-sm font-bold">{error}</p>}
-          <input name="firstName" defaultValue={user.firstname} className="border p-2 w-full rounded" placeholder="First Name" />
-          <input name="lastName" defaultValue={user.lastname} className="border p-2 w-full rounded" placeholder="Last Name" />
-          <input name="password" type="password" placeholder="New Password (optional)" className="border p-2 w-full rounded" />
-          <div className="flex gap-2">
-            <button type="submit" className="bg-cyan-600 text-white px-4 py-2 rounded">Save Changes</button>
-            <button type="button" onClick={() => setIsEditing(false)} className="text-gray-500 px-4 py-2">Cancel</button>
-          </div>
-        </form>
-      )
-    ) : (
-      <table className="w-full text-left text-black">
-        <thead>
-          <tr className="border-b">
-            <th className="py-2">Product</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order.id} className="border-b">
-              <td className="py-2">{order.productName}</td>
-              <td>{order.status}</td>
-              <td className="flex gap-2">
-                {order.status === 'Pending' && (
-                  <>
-                    <button onClick={() => handleAction(order.id, 'Confirmed')} className="bg-green-500 text-white px-2 py-1 rounded text-xs">Accept</button>
-                    <button onClick={() => handleAction(order.id, 'Cancelled')} className="bg-red-500 text-white px-2 py-1 rounded text-xs">Cancel</button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    )}
-  </div>
-);
-
+        <UserOrderTable orders={orders} onAction={handleAction} />
+      )}
+    </div>
+  );
 }
 
 
+// 'use client';
 
-// 'use client'
-// import { useState } from "react";
-// import AccountDetails from "@/components/UserAccountDetails";
-// import OrderTable from "@/components/UserOrderTable";
+// import { useState } from 'react';
+// import { updateProfile } from '@/app/lib/actions'; // Your Server Action
+// import { useRouter } from 'next/navigation';
 
 // export default function UserDashboard({ user, userId }: { user: any, userId: string }) {
 //   const [activeTab, setActiveTab] = useState<'account' | 'orders'>('account');
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [error, setError] = useState<string | null>(null);
+//   const router = useRouter();
+//   const [orders, setOrders] = useState([
+//     { id: 101, productName: 'Handcrafted Vase', status: 'Pending', date: '2026-06-09' },
+//     { id: 102, productName: 'Woven Basket', status: 'Pending', date: '2026-06-10' },
+//     { id: 103, productName: 'Ceramic Mug', status: 'Confirmed', date: '2026-06-10' },
+//     { id: 104, productName: 'Wool Scarf', status: 'Pending', date: '2026-06-11' },
+//     { id: 105, productName: 'Wooden Tray', status: 'Cancelled', date: '2026-06-11' },
+//   ]);
 
-//   interface Order {
-//   id: number;
-//   productName: string;
-//   status: 'Pending' | 'Confirmed' | 'Cancelled';
-//   date: string;
-// }
+// const handleAction = (id: number, action: 'Confirmed' | 'Cancelled') => {
+//     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: action } : o));
+//   };
 
-// const [orders, setOrders] = useState<Order[]>([
-//   { id: 101, productName: 'Handcrafted Vase', status: 'Pending', date: '2026-06-09' },
-//   { id: 102, productName: 'Woven Basket', status: 'Pending', date: '2026-06-10' },
-//   { id: 103, productName: 'Ceramic Mug', status: 'Confirmed', date: '2026-06-10' },
-//   { id: 104, productName: 'Wool Scarf', status: 'Pending', date: '2026-06-11' },
-//   { id: 105, productName: 'Wooden Tray', status: 'Cancelled', date: '2026-06-11' },
-// ]);
- 
+//   // Handle Profile Update
+//   async function handleProfileSubmit(formData: FormData) {
+//     const fn = formData.get('firstName') as string;
+//     const ln = formData.get('lastName') as string;
+//     const result = await updateProfile(userId, formData);
 
-//   const handleAction = (id: number, action: 'Confirmed' | 'Cancelled') => {
-//   setOrders(prev => prev.map(o => o.id === id ? { ...o, status: action } : o));
-// };
-//   const handleProfileSubmit = async (formData: FormData) => {
-//   const fn = formData.get('firstName') as string;
-//   const ln = formData.get('lastName') as string;
-  
-//   // ... rest of your logic
-// };
+//     if (!fn.trim() || !ln.trim()) {
+//       setError("Name fields cannot be empty!");
+//       return;
+//     } 
 
+
+//     if (result.error) {
+//       setError(result.error);
+//     } else if (result.needsRelogin) {
+//       // Force navigation to login if password was changed
+//       router.push('/login');
+//     }else{
+//       setError(null);
+//       setIsEditing(false);
+//       window.location.reload(); 
+//     }
+//   }
 //   return (
-//     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow rounded-lg">
-//       <h1 className="text-2xl font-bold mb-6 text-black">My Dashboard</h1>
-      
-//       {/* Tab Navigation Buttons */}
-//       <div className="flex gap-4 border-b mb-6 text-black">
-//          <button onClick={() => setActiveTab('account')}>Account</button>
-//          <button onClick={() => setActiveTab('orders')}>Orders</button>
-//       </div>
+//   <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow rounded-lg">
+//     <h1 className="text-2xl font-bold mb-6 text-black">My Dashboard</h1>
 
-//       {activeTab === 'account' ? (
-//         <AccountDetails user={user} onUpdate={handleProfileSubmit} />
-//       ) : (
-//         <OrderTable orders={orders} onAction={handleAction} />
-//       )}
+//     {/* ADD THIS SECTION BACK IN */}
+//     <div className="flex gap-4 border-b mb-6 text-black">
+//       <button 
+//         onClick={() => setActiveTab('account')} 
+//         className={`pb-2 ${activeTab === 'account' ? 'border-b-2 border-cyan-500 font-bold' : ''}`}
+//       >
+//         Account Details
+//       </button>
+//       <button 
+//         onClick={() => setActiveTab('orders')} 
+//         className={`pb-2 ${activeTab === 'orders' ? 'border-b-2 border-cyan-500 font-bold' : ''}`}
+//       >
+//         My Orders
+//       </button>
 //     </div>
-//   );
+
+//     {/* Now the logic for the tabs will work */}
+//     {activeTab === 'account' ? (
+//       !isEditing ? (
+//         <div className="space-y-4 text-black">
+//           <p><strong>Name:</strong> {user.firstname} {user.lastname}</p>
+//           <p><strong>Email:</strong> {user.email}</p>
+//           <button onClick={() => setIsEditing(true)} className="text-sm text-cyan-600 underline">Edit Profile</button>
+//         </div>
+//       ) : (
+//         <form action={handleProfileSubmit} className="space-y-4 text-black">
+//           {error && <p className="text-red-500 text-sm font-bold">{error}</p>}
+//           <input name="firstName" defaultValue={user.firstname} className="border p-2 w-full rounded" placeholder="First Name" />
+//           <input name="lastName" defaultValue={user.lastname} className="border p-2 w-full rounded" placeholder="Last Name" />
+//           <input name="password" type="password" placeholder="New Password (optional)" className="border p-2 w-full rounded" />
+//           <div className="flex gap-2">
+//             <button type="submit" className="bg-cyan-600 text-white px-4 py-2 rounded">Save Changes</button>
+//             <button type="button" onClick={() => setIsEditing(false)} className="text-gray-500 px-4 py-2">Cancel</button>
+//           </div>
+//         </form>
+//       )
+//     ) : (
+//       <table className="w-full text-left text-black">
+//         <thead>
+//           <tr className="border-b">
+//             <th className="py-2">Product</th>
+//             <th>Status</th>
+//             <th>Action</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {orders.map((order) => (
+//             <tr key={order.id} className="border-b">
+//               <td className="py-2">{order.productName}</td>
+//               <td>{order.status}</td>
+//               <td className="flex gap-2">
+//                 {order.status === 'Pending' && (
+//                   <>
+//                     <button onClick={() => handleAction(order.id, 'Confirmed')} className="bg-green-500 text-white px-2 py-1 rounded text-xs">Accept</button>
+//                     <button onClick={() => handleAction(order.id, 'Cancelled')} className="bg-red-500 text-white px-2 py-1 rounded text-xs">Cancel</button>
+//                   </>
+//                 )}
+//               </td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     )}
+//   </div>
+// );
+
 // }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

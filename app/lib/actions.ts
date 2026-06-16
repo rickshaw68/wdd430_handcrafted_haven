@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs';
 import postgres from "postgres";
 import { cookies } from 'next/headers'
 import { NextResponse } from "next/server";
+import { revalidatePath } from 'next/cache';
 
 const sql = postgres(process.env.POSTGRES_URL!, {
   ssl: "require",
@@ -124,6 +125,32 @@ export async function fetchUsers() {
   }
 }
 
+export async function fetchSellers() {
+  try {
+    // 1. The result of the query is the array directly
+const sellers = await sql`SELECT * FROM  sellers`;
+  
+    // 2. Log to your terminal console
+    console.log("Sellers available in database:", sellers);
+    
+    return sellers;
+  } catch (error) {
+    console.error("Error fetching sellers:", error);
+    return [];
+  }
+}
+
+export async function fetchshop(userId: string) {
+  try {
+    // We add [0] to get the object directly, or return null if not found
+    const sellers = await sql`SELECT shop_name FROM sellers WHERE id = ${userId}`;
+    
+    return sellers.length > 0 ? sellers[0] : null;
+  } catch (error) {
+    console.error("Error fetching sellers:", error);
+    return null;
+  }
+}
 
 export async function fetchProducts() {
   try {
@@ -139,6 +166,32 @@ export async function fetchProducts() {
     return [];
   }
 }
+ 
+
+export async function getSellerProfile(userId: string) {
+  try {
+    const sellers = await sql`
+      SELECT 
+        u.*, 
+        s.shop_name, 
+        s.bio, 
+        s.story 
+      FROM users u
+      INNER JOIN sellers s ON u.id = s.user_id 
+      WHERE u.id = ${userId}
+    `;
+
+    /*console.log("Seller profile found:", sellers[0]);*/
+
+    // Return the specific seller object (or null if not found)
+    return sellers.length > 0 ? sellers[0] : null;
+
+  } catch (error) {
+    console.error("Error fetching seller profile:", error);
+    return null;
+  }
+}
+
 
 
 
@@ -169,3 +222,92 @@ export async function updateProfile(userId: string, formData: FormData) {
   }
 }
 
+
+
+export async function updateSellerProfile(userId: string, formData: FormData) {
+  const firstName = (formData.get('firstName') as string)?.trim();
+  const lastName = (formData.get('lastName') as string)?.trim();
+  const password = (formData.get('password') as string)?.trim();
+  const shopName = (formData.get('shopName') as string)?.trim();
+  const bio = (formData.get('bio') as string)?.trim();
+  const story = (formData.get('story') as string)?.trim();
+
+  
+  if (!firstName || !lastName || !shopName || !bio || !story) {
+    return { error: 'All profile fields are required.' };
+  }
+
+  try {
+    const hasNewPassword = password && password.length > 0;
+    let hashedPassword = '';
+
+    if (hasNewPassword) {
+      
+      if (password.length < 8) {
+        return { error: 'New password must be at least 8 characters long.' };
+      }
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    // Wrap both updates in a single transaction
+    await sql.begin(async (sql) => {
+      if (hasNewPassword) {
+        await sql`UPDATE users SET firstname = ${firstName}, lastname = ${lastName}, password_hash = ${hashedPassword} WHERE id = ${userId}`;
+      } else {
+        await sql`UPDATE users SET firstname = ${firstName}, lastname = ${lastName} WHERE id = ${userId}`;
+      }
+
+      await sql`UPDATE sellers SET shop_name = ${shopName}, bio = ${bio}, story = ${story} WHERE user_id = ${userId}`;
+    });
+
+    if (hasNewPassword) {
+      (await cookies()).delete('session');
+      return { success: true, needsRelogin: true }; 
+    }
+    
+    return { success: true, needsRelogin: false }; 
+    
+  } catch (error) {
+    console.error("Profile update failed:", error);
+    return { error: 'Failed to update profile' };
+  }
+}
+
+
+export async function addProduct(userId: string, formData: FormData) {
+  const shopData = await sql`SELECT shop_name FROM sellers WHERE user_id = ${userId}`;
+  const shopName = shopData[0]?.shop_name || "Unknown Shop";
+
+  const name = formData.get('name') as string;
+  const price = Number(formData.get('price'));
+  const category = formData.get('category') as string;
+  const rating = Number(formData.get('rating'));
+  const image = formData.get('image') as string;
+  const description = formData.get('description') as string;
+
+  try {
+    await sql`
+  INSERT INTO products (name, price, category, rating, image, seller, seller_id, description)
+  VALUES (${name}, ${price}, ${category}, ${rating}, ${image}, ${shopName}, ${userId}, ${description})
+`;
+    
+    revalidatePath('/dashboard'); // Refreshes the dashboard data
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: 'Failed to add product' };
+  }
+}
+
+export async function getSellerProducts(userId: string) {
+  return await sql`SELECT * FROM products WHERE seller_id = ${userId}`;
+}
+
+export async function deleteProduct(productId: number) {
+  try {
+    await sql`DELETE FROM products WHERE id = ${productId}`;
+    revalidatePath('/dashboard');
+  } catch (error) {
+    throw new Error('Failed to delete product');
+  }
+}

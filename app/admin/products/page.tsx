@@ -123,7 +123,7 @@ export default function AdminProductsPage() {
             placeholder="Product name"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="rounded-lg border border-neutral-300 px-4 py-2"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-black"
             required
             />
 
@@ -132,7 +132,7 @@ export default function AdminProductsPage() {
             placeholder="Price"
             value={formData.price}
             onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-            className="rounded-lg border border-neutral-300 px-4 py-2"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-black"
             required
             />
 
@@ -143,7 +143,7 @@ export default function AdminProductsPage() {
             onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
             }
-            className="rounded-lg border border-neutral-300 px-4 py-2"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-black"
             required
             />
 
@@ -152,7 +152,7 @@ export default function AdminProductsPage() {
             placeholder="Rating"
             value={formData.rating}
             onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
-            className="rounded-lg border border-neutral-300 px-4 py-2"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-black"
             required
             />
 
@@ -161,7 +161,7 @@ export default function AdminProductsPage() {
             placeholder="Image path"
             value={formData.image}
             onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-            className="rounded-lg border border-neutral-300 px-4 py-2"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-black"
             required
             />
 
@@ -170,7 +170,7 @@ export default function AdminProductsPage() {
             placeholder="Seller"
             value={formData.seller}
             onChange={(e) => setFormData({ ...formData, seller: e.target.value })}
-            className="rounded-lg border border-neutral-300 px-4 py-2"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-black"
             required
             />
 
@@ -181,7 +181,7 @@ export default function AdminProductsPage() {
             onChange={(e) =>
                 setFormData({ ...formData, sellerId: e.target.value })
             }
-            className="rounded-lg border border-neutral-300 px-4 py-2"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-black"
             required
             />
 
@@ -191,7 +191,7 @@ export default function AdminProductsPage() {
             onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
             }
-            className="rounded-lg border border-neutral-300 px-4 py-2 md:col-span-2"
+            className="rounded-lg border border-neutral-300 px-4 py-2 md:col-span-2 text-black"
             required
             />
 
@@ -219,7 +219,7 @@ export default function AdminProductsPage() {
 
             <tbody>
                 {products.map((product) => (
-                <tr key={product.id} className="border-t border-neutral-200">
+                <tr key={product.id} className="border-t border-neutral-200 text-black">
                     <td className="px-4 py-3">{product.id}</td>
                     <td className="px-4 py-3 font-medium">{product.name}</td>
                     <td className="px-4 py-3">{product.category}</td>
