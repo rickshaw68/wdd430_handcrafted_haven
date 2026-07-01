@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useActionState } from 'react';
 import { registerSeller } from '../lib/actions'; // Import your server action
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
   const [accountType, setAccountType] = useState<'personal' | 'business'>('personal');
 
-  // 2. Initialize useFormState
-  // The second argument is the initial state of the form
+  
   const [state, formAction] = useActionState(registerSeller, { 
     success: false, 
     message: "" 

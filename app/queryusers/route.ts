@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchProducts, fetchSellers, fetchshop, fetchUsers,getSellerProfile } from "../lib/actions";
+import { fetchProducts, fetchPurchase, fetchReviews, fetchSellers, fetchshop, fetchUsers,getSellerProfile } from "../lib/actions";
 
 export async function GET(){
     try{

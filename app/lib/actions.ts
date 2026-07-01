@@ -167,6 +167,36 @@ export async function fetchProducts() {
     return [];
   }
 }
+
+export async function fetchPurchase() {
+  try {
+    // 1. The result of the query is the array directly
+    const purchase = await sql`SELECT * FROM  purchases`;
+    
+    // 2. Log to your terminal console
+    console.log("Purchases available in database:", purchase);
+    
+    return purchase;
+  } catch (error) {
+    console.error("Error fetching pruchase:", error);
+    return [];
+  }
+}
+
+export async function fetchReviews() {
+  try {
+    // 1. The result of the query is the array directly
+    const reviews = await sql`SELECT * FROM  reviews`;
+    
+    // 2. Log to your terminal console
+    console.log("Reviews available in database:", reviews);
+    
+    return reviews;
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return [];
+  }
+}
  
 
 export async function getSellerProfile(userId: string) {
